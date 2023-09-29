@@ -10,17 +10,18 @@ except:
 def insert_records_into_table(table_name,values):
     cursor=conn.cursor
     task = f"INSERT INTO {table_name}(name,buying_price,selling_price,stock_quantity) VALUES('%',%,%,%)"
-    new_record=values
-    cursor.execute(task,new_record)
+    
+    values=('spaghetti',150,250,50)
+    cursor.execute(task,values)
     conn.commit()
 
-
+new_record=insert_records_into_table('table_name','values')
 print('records inserted succesfully')
 conn.close
 
 def insert_records_into_table(table_name,values):
     cursor=conn.cursor
-    task = f"INSERT INTO {table_name}(pid,quantity,created_at) VALUES(%,%,%)"
+    task = f"INSERT INTO {table_name}(pid,quantity,created_at) VALUES(%,%,%,%)"
     new_record=values
     cursor.execute(task,new_record)
     conn.commit()

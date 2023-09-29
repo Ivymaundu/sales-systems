@@ -1,3 +1,4 @@
+
 import psycopg2
 try:
     conn = psycopg2.connect(
@@ -5,41 +6,35 @@ try:
 except:
     print('unable to connect to the database')
 
-# def get_data(my_data):
-#     cur = conn.cursor()
-#     t = "select * from "+my_data
-#     cur.execute(t)
-#     data = cur.fetchall()
-#     return data
-# prods=get_data('products')
-# sales=get_data('sales')
-# print(prods)
+def get_data(my_data):
+    cur = conn.cursor()
+    t = "select * from "+my_data
+    cur.execute(t)
+    data = cur.fetchall()
+    return data
+prods=get_data('products')
+sales=get_data('sales')
+print(prods)
 # print(sales)
 
 
-def insert_records():
+def remaining_stock():
+    stock = [] 
     cur = conn.cursor()
+    
+    cur.execute(f'SELECT * FROM rem_stock')
+    rem_stocks = cur.fetchall()
 
-        # Execute the INSERT statement
-    cur.execute("INSERT INTO products (name, buying_price,selling_price,stock_quantity) VALUES (%s, %s,%s,%s)", ("yoghurt", 20,50,10))
-    conn.commit()
-    cur.close()
-    conn.close()
+    for rem_stock in rem_stocks:
+        product = {}  # Create a new dictionary for each product
+        product['name'] = rem_stock[1]
+        product['rem_stock'] = rem_stock[2]
+        stock.append(product)
 
-    print("Data inserted successfully!")  
-   
+    return stock
 
-total=insert_records()
-print(total)
+s = remaining_stock()
+# the output is a list of dictionaries
+print(s)
+
 conn.close()
-
-#     cur=conn.cursor 
-#     new_record= f"INSERT INTO products {table_name} VALUES (%,%,%,%)"
-#     record_data=values
-#     cur.execute(new_record,record_data)
-#     data=all()
-#     return data
-
-# new_record=insert_records('products',"'downy',10,50,30")
-# print(new_record)
-
