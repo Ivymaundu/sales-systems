@@ -1,5 +1,5 @@
 from flask import Flask,render_template
-app=app = Flask(__name__)
+app=Flask(__name__)
 
 @app.route("/")
 def myindex():
@@ -8,4 +8,8 @@ def myindex():
 @app.route("/dashboard")
 def my_dashboard():
     return render_template("dashboard.html")
+
+@app.route("/products")
+def my_dashboard():
+    return render_template("products.html")
 app.run()
