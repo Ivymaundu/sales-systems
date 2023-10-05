@@ -15,12 +15,13 @@ def myindex():
     return render_template("index.html")
 
 @app.route("/dashboard")
-def profit1():       
-    dates=[str(i[0]) for i in calc_profit()]
-    profits=[float(i[1]) for i in calc_profit()]
-
-    return render_template("dashboard.html", dates = dates, profits=profits)
-
+def my_dashboard():
+    dates=[]
+    profits=[]
+    for i in calc_profit():
+        dates.append(str(i[0]))
+        profits.append((i[1]))
+    return render_template("dashboard.html",dates=dates,profits=profits)
 
 # @app.route("/add-products" ,methods = ["POST"])
 # def add_products():
