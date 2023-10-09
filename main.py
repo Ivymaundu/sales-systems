@@ -1,6 +1,6 @@
 import psycopg2
 from flask import Flask,render_template,request,redirect
-from dbservice import get_data,add_product,add_sale,calc_profit
+from dbservice import calc_profit,create_user
 
 try:
     conn = psycopg2.connect(
@@ -20,41 +20,22 @@ def my_dashboard():
     profits=[]
     for i in calc_profit():
         dates.append(str(i[0]))
-        profits.append((i[1]))
+        profits.append(float(i[1]))
     return render_template("dashboard.html",dates=dates,profits=profits)
 
-# @app.route("/add-products" ,methods = ["POST"])
-# def add_products():
-#     name=request.form["name"]
-#     buying_price=request.form["buying_price"]
-#     selling_price=request.form["selling_price"]
-#     stock_quantity=request.form["stock_quantity"]
-#     values=(name,buying_price,selling_price,stock_quantity)
-#     add_product(values)
-#     return redirect("/products")
 
+# @app.route("/signup", methods= ["POST", "GET"])
+# def create_account():
+#     full_name=request.form["full_name"]
+#     email=request.form["email"]
+#     password=request.form["password"]
+#     values=(full_name,email,password)
+#     create_user(values)
+#     return redirect("/signin")
 
-
-# @app.route("/products")
-# def products():
-#     myprods=get_data("products")
-#     return render_template("products.html", myprods=myprods)
-
-
-# @app.route("/add-sale",method="POST")
-# def add_sale(values):
-#     pid=request.form["pid"]
-#     quantity=request.form["quantity"]
-#     values(pid,quantity)
-#     add_sale(values)
-#     return redirect("/sales")
-
-# @app.route("/sales")
-# def sales():
-#     products = get_data('products') 
-#     sales=get_data('sales')
-
-#     return render_template("sales.html", myprods=products,mysales=sales)
+@app.route("/signup")
+def sign_up():
+   return render_template("signup.html")
 
 
 app.run(debug=True)

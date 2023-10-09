@@ -28,17 +28,6 @@ def add_sale(values):
     conn.commit()
 
 
-
-# def calc_profit():
-#     cursor = conn.cursor()
-#     m =" SELECT SUM((products.selling_price - products.buying_price) * sales.quantity) AS profit,\
-#     sales.created_at FROM sales JOIN products ON sales.pid = products.id  WHERE sales.created_at >=\
-#     '2022-10-13 05:00:48'  AND sales.created_at <= '2023-10-05 20:33:31' GROUP BY sales.created_at\
-#     ORDER BY sales.created_at ASC;"
-
-#     cursor.execute(m)
-#     data3=cursor.fetchall()
-#     return data3
 def calc_profit():
     cur=conn.cursor()
     find_profit="SELECT date(created_at) as days,sum((products.selling_price-products.buying_price)*sales.quantity) as profit from sales join products on products.id=sales.pid group by days order by days;"
@@ -46,5 +35,34 @@ def calc_profit():
     profit_per_day=cur.fetchall()
     return profit_per_day
 
+def check_email_exists(email):
+    cursor = conn.cursor()
+    query = "SELECT EXISTS(SELECT 1 FROM users WHERE email = %s)"
+    cursor.execute(query, (email))
+    exists = cursor.fetchone()[0]
+    return exists
 
+def create_user(values):
+    cursor = conn.cursor()
+    insert_query = "INSERT INTO users (full_name, email, password) values (%s, %s, %s)"
+    cursor.execute(insert_query,values)
+    conn.commit()
 
+def check_email_exists(email):
+    cursor = conn.cursor()
+    check = "SELECT EXISTS(SELECT 1 FROM users WHERE email = %s)"
+    cursor.execute(check, (email))
+    exists = cursor.fetchone()[0]
+    return exists
+
+def check_email_password_match(email, password):
+    cursor = conn.cursor()
+    confirm_match = "SELECT user_id FROM users WHERE email = %s AND password = %s"
+    cursor.execute(confirm_match, (email, password))
+    final = cursor.fetchone()
+    if final:
+        
+        if final[0] == password:  
+            return final
+    return False
+ 
