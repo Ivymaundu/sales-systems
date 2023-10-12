@@ -35,14 +35,18 @@
   </nav>
   <div class="container">
     <form method="POST" action="/add-sale" class="mt-4">
+      <select name="pid">
+        {% for prods in myprods %}
+        <option value="{{ prods[0] }}">{{ prods[1] }}</option>
+        {% endfor %}
+      </select>
+       
       <div class="mb-3">
-        <select name="pid" required>
-          {% for sale in mysales %}
-          <option value="{{sale[0]}}">{{sale[1]}}</option>
-        </select>
-        <label for="formGroupExampleInput" class="form-label">quantity</label>
-        <input type="text" name="quantity" class="form-control" id="formGroupExampleInput" placeholder="sale quantity">
+        <label for="exampleInputPassword1" class="form-label">quantity</label>
+        <input type="number" class="form-control" name="quantity" id="exampleInputPassword1">
       </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
   </div>
